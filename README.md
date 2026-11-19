@@ -1,0 +1,2 @@
+# lanvalheimsocket
+lanbakendplugin
