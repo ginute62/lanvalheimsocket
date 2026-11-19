@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+
+    <AssemblyName>ValheimLANBackend</AssemblyName>
+    <RootNamespace>ValheimLANBackend</RootNamespace>
+
+    <!-- Définir VALHEIM_DIR ou passer -p:ValheimDir=... au build. -->
+    <ValheimDir Condition="'$(ValheimDir)' == '' and '$(VALHEIM_DIR)' != ''">$(VALHEIM_DIR)</ValheimDir>
+    <ValheimDir Condition="'$(ValheimDir)' == ''">E:\Games\Valheim</ValheimDir>
+    <ManagedDir Condition="'$(ManagedDir)' == '' and '$(VALHEIM_MANAGED_DIR)' != ''">$(VALHEIM_MANAGED_DIR)</ManagedDir>
+    <ManagedDir Condition="'$(ManagedDir)' == ''">$(ValheimDir)\valheim_Data\Managed</ManagedDir>
+    <BepInExCore Condition="'$(BepInExCore)' == '' and '$(BEPINEX_CORE_DIR)' != ''">$(BEPINEX_CORE_DIR)</BepInExCore>
+    <BepInExCore Condition="'$(BepInExCore)' == ''">$(ValheimDir)\BepInEx\core</BepInExCore>
+    <BepInExPlugins Condition="'$(BepInExPlugins)' == '' and '$(BEPINEX_PLUGINS_DIR)' != ''">$(BEPINEX_PLUGINS_DIR)</BepInExPlugins>
+    <BepInExPlugins Condition="'$(BepInExPlugins)' == ''">$(ValheimDir)\BepInEx\Plugins</BepInExPlugins>
+
+    <!-- Empêche la copie des DLL du jeu -->
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    
+    <!-- Résolution des avertissements MSB3277 (System.Net.Http) -->
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <MSBuildWarningsAsMessages>MSB3277</MSBuildWarningsAsMessages>
+  </PropertyGroup>
+<ItemGroup>
+    <!-- Modules Unity utilisés par le plugin -->
+    <Reference Include="UnityEngine">
+      <HintPath>$(ManagedDir)\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(ManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- Assemblies de Valheim -->
+    <Reference Include="assembly_valheim">
+      <HintPath>$(ManagedDir)\assembly_valheim.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- Ces deux assemblies sont distribuées avec le jeu sous BepInEx/Plugins. -->
+    <Reference Include="assembly_utils">
+      <HintPath>$(ManagedDir)\assembly_utils.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="com.rlabrecque.steamworks.net">
+      <HintPath>$(ManagedDir)\com.rlabrecque.steamworks.net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- BepInEx + Harmony -->
+    <Reference Include="BepInEx">
+      <HintPath>$(BepInExCore)\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="0Harmony">
+      <HintPath>$(BepInExCore)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
